@@ -44,18 +44,22 @@ def organize_files(folder_path, simulate=False):
                 os.makedirs(target_dir, exist_ok=True)
                 # Step(4) Move the file to its respective directory
                 shutil.move(file_path, os.path.join(target_dir, filename))
+                print(f"✔️  Moved: {filename} -> {category}")
             except PermissionError:
-                print(f"Skipping file (permission denied): {filename}")
+                print(f"⚠️  Skipping file (permission denied): {filename}")
                 continue
+        else:
+            print(f"🔍 Simulated move: {filename} -> {category}")
 
         # Update the summary counter for the category
         summary[category] += 1
 
     # Step(5.2) Print a summary of the organized files
-    print("\nSummary of organized files:")
+    print("\n📊 Summary of Organized Files:")
+    print("-" * 30)
     for category, count in summary.items():
-        print(f"{category}: {count} files")
-
+        print(f"{category:<10}: {count} file(s)")
+    print("-" * 30)
 
 def main():
     """
@@ -75,11 +79,15 @@ def main():
         print(f"Error: '{folder_path}' is not a valid directory.")
         return
 
-    print(f"Processing folder: {folder_path}")
+    print("\n📂 Processing Folder:")
+    print(f"   {folder_path}")
+    print("-" * 30)
 
     # Call the organize_files function to organize the files
     organize_files(folder_path, simulate)
 
+    print("\n✅ File organization completed successfully!")
+    print("-" * 30)
 
 # Running the script
 if __name__ == "__main__":
