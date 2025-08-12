@@ -17,9 +17,13 @@ def organize_files(folder_path, simulate=False):
     folder_path (str): The path to the folder containing files to organize.
     simulate (bool): If True, only simulates the organization without making changes.
     """
+    # Step(5.1) Summary counter
+    summary = { category: 0 for category in CATEGORIES.keys() }
+    summary["Others"] = 0
 
     # Step(2) Scan for files only
     for filename in os.listdir(folder_path):
+
         file_path = os.path.join(folder_path, filename)
         if not os.path.isfile(file_path):
             continue
@@ -34,6 +38,13 @@ def organize_files(folder_path, simulate=False):
 
         # Step(4) Move files to their respective directories
         shutil.move(file_path, os.path.join(target_dir, filename))
+
+        summary[category] += 1
+
+    # Step(5.2) Print summary
+    print("\nSummary of organized files:")
+    for category, count in summary.items():
+        print(f"{category}: {count} files")
 
 
 def main():
