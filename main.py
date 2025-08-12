@@ -1,6 +1,13 @@
 import os # --> for file and directory operations
 import sys # --> for file operations
 
+# Step(3) Define file categories
+CATEGORIES = {
+    "Images": [".jpg", ".jpeg", ".png", ".gif", ".bmp"],
+    "Documents": [".pdf", ".docx", ".doc", ".txt", ".xlsx", ".pptx"],
+    "Videos": [".mp4", ".mkv", ".mov", ".avi"],
+}
+
 def organize_files(folder_path, simulate=False):
     """
     Organizes files in the specified folder into subfolders based on file type.
@@ -16,6 +23,14 @@ def organize_files(folder_path, simulate=False):
         if not os.path.isfile(file_path):
             continue
         print(f"Found file: {filename}")
+
+        extension = os.path.splitext(filename)[1].lower()
+        category = next((cat for cat, exts in CATEGORIES.items() if extension in exts), "Others")
+
+        target_dir = os.path.join(folder_path, category)
+
+        os.makedirs(target_dir, exist_ok=True)
+
 
 def main():
     # Step(1) Accept folder path
