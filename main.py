@@ -1,11 +1,19 @@
-# Step(1) Accepting the folder path from the user
+import os # --> for file and directory operations
+import sys # --> for file operations
 
-# Step(2) Scanning the folder for files not subdirectories
+def main():
+    # Step(1) Accept folder path
+    if len(sys.argv) < 2:
+        folder_path = input("Enter folder path: ").strip()
+    else:
+        folder_path = sys.argv[1]
 
-# Step(3) Creating category subfolders
+    if not os.path.exists(folder_path) or not os.path.isdir(folder_path):
+        print(f"Error: '{folder_path}' is not a valid directory.")
+        return
 
-# Step(4) Moving files to their respective category subfolders
+    print(f"Processing folder: {folder_path}")
 
-# Step(5) Showing summary of the files moved per category (Bonus)
-
-# Step(6) Adding --simulate option to test without moving files
+# Running the script
+if __name__ == "__main__":
+    main()
