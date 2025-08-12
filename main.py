@@ -34,10 +34,10 @@ def organize_files(folder_path, simulate=False):
 
         target_dir = os.path.join(folder_path, category)
 
-        os.makedirs(target_dir, exist_ok=True)
-
-        # Step(4) Move files to their respective directories
-        shutil.move(file_path, os.path.join(target_dir, filename))
+        if not simulate:
+            os.makedirs(target_dir, exist_ok=True)
+            # Step(4) Move files to their respective directories
+            shutil.move(file_path, os.path.join(target_dir, filename))
 
         summary[category] += 1
 
@@ -54,13 +54,15 @@ def main():
     else:
         folder_path = sys.argv[1]
 
+    simulate = "--simulate" in sys.argv
+
     if not os.path.exists(folder_path) or not os.path.isdir(folder_path):
         print(f"Error: '{folder_path}' is not a valid directory.")
         return
         
     print(f"Processing folder: {folder_path}")
 
-    organize_files(folder_path)
+    organize_files(folder_path, simulate)
 
 # Running the script
 if __name__ == "__main__":
