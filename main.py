@@ -28,7 +28,8 @@ def organize_files(folder_path, simulate=False):
         # Skip directories and process files only
         if not os.path.isfile(file_path):
             continue
-        print(f"Found file: {filename}")
+
+        # print(f"Found file: {filename}")
 
         # Determine the file's extension and its category
         extension = os.path.splitext(filename)[1].lower()
@@ -38,10 +39,14 @@ def organize_files(folder_path, simulate=False):
         target_dir = os.path.join(folder_path, category)
 
         if not simulate:
-            # Create the target directory if it doesn't exist
-            os.makedirs(target_dir, exist_ok=True)
-            # Step(4) Move the file to its respective directory
-            shutil.move(file_path, os.path.join(target_dir, filename))
+            try:
+                # Create the target directory if it doesn't exist
+                os.makedirs(target_dir, exist_ok=True)
+                # Step(4) Move the file to its respective directory
+                shutil.move(file_path, os.path.join(target_dir, filename))
+            except PermissionError:
+                print(f"Skipping file (permission denied): {filename}")
+                continue
 
         # Update the summary counter for the category
         summary[category] += 1
