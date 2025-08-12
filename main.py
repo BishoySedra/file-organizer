@@ -1,5 +1,6 @@
 import os # --> for file and directory operations
 import sys # --> for file operations
+import shutil # --> for file operations
 
 # Step(3) Define file categories
 CATEGORIES = {
@@ -30,6 +31,9 @@ def organize_files(folder_path, simulate=False):
         target_dir = os.path.join(folder_path, category)
 
         os.makedirs(target_dir, exist_ok=True)
+
+        # Step(4) Move files to their respective directories
+        shutil.move(file_path, os.path.join(target_dir, filename))
 
 
 def main():
