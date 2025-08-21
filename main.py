@@ -18,7 +18,9 @@ def organize_files(folder_path, simulate=False):
     simulate (bool): If True, only simulates the organization without making changes.
     """
     # Step(5.1) Initialize a summary counter for each category
-    summary = {category: 0 for category in CATEGORIES.keys()}
+    summary = {}
+    for category in CATEGORIES.keys():
+        summary[category] = 0  # Initialize count for each category
     summary["Others"] = 0  # For files that don't match any category
 
     # Step(2) Scan the folder for files only
@@ -33,7 +35,11 @@ def organize_files(folder_path, simulate=False):
 
         # Determine the file's extension and its category
         extension = os.path.splitext(filename)[1].lower()
-        category = next((cat for cat, exts in CATEGORIES.items() if extension in exts), "Others")
+        category = "Others"  # Default category for unmatched files
+        for cate, extensions in CATEGORIES.items():
+            if extension in extensions:
+                category = cate
+                break
 
         # Define the target directory for the file
         target_dir = os.path.join(folder_path, category)
